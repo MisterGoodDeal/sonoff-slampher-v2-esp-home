@@ -1,0 +1,1 @@
+# sonoff-slampher-v2-esp-home
