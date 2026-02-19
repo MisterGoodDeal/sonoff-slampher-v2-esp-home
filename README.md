@@ -117,7 +117,7 @@ ota:
     password: "de82ddbe2bebb6010a721fd2451684d6"
 ```
 
-### 📡 WiFi settings
+### 🛜 WiFi settings
 
 The WiFi settings are used to connect the device to your home network.
 
