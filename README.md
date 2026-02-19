@@ -226,3 +226,22 @@ If everything went well, you should be able to add the device to your Home Assis
 4. Now you're good to go! You should be able to control the device from your Home Assistant instance.
 
 ![Step 5 - 2](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_5/2.gif?raw=true)
+
+## 6. 🖨️ Optional: Printing a custom case for the board
+
+If you want to print a custom case for the board, you can use the `sonoff-slampher-case.stl` file from this repository.
+
+You'll be able to reuse the original screws to close the case.
+
+Here's some parameters used to print the case:
+
+| Parameter          | Value         |
+|--------------------|---------------|
+| Filament type      | PLA           |
+| Filament color     | White         |
+| Filament brand     | Amazon Basics |
+| Bed temperature    | 50°C          |
+| Hotend temperature | 200°C         |
+| Print speed        | 150mm/s       |
+| Layer height       | 0.28mm        |
+| Support            | Yes           |
