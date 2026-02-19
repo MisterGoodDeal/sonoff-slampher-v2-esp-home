@@ -18,7 +18,7 @@ So in this tutorial I'll show the following steps to reproduce the flashing of *
 You're dealing with **live electricity**, either **110V** or **220V** depending on your country.
 The device has **capacitors** on the board, so be careful not to short them and leave the board disconnected from the power source for at least **10 minutes** before working on it.
 
-If you repurpose the board as a smart switch, just keep in mind that the board has a maximum load of 450w @ 2A for 220v or 22Ow @ 2A for 110v.
+If you repurpose the board as a smart switch, just keep in mind that the board has a maximum load of 450w @ 2A for 220v or 220w @ 2A for 110v.
 
 ### 📋 Prerequisites
 
@@ -53,7 +53,7 @@ You'll need to find 5 pins on the board to solder on.
 | Pin | Description                    |
 |-----|--------------------------------|
 | GND | Ground                         |
-| VCC | Power                          |
+| 3V3 | Power                          |
 | RX  | Data (receiver)                |
 | TX  | Data (transmitter)             |
 | GPIO 0 | Reset on R3 unpopulated pad |
@@ -75,7 +75,7 @@ Once you've soldered the pins, you can connect the USB TTL Serial Converter like
 | Pins from the board | Pins from the USB TTL Serial Converter |
 |---------------------|----------------------------------------|
 | GND                 | GND                                    |
-| VCC                 | VCC                                    |
+| 3V3                 | VCC                                    |
 | RX                  | TX                                     |
 | TX                  | RX                                     |
 | R3 (GPIO 0)         | GND                                    |
