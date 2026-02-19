@@ -9,7 +9,7 @@ So in this tutorial I'll show the following steps to reproduce the flashing of *
 1. Opening the Sonoff Slampher
 2. Locating required pins to solder on
 3. Setting up your YAML file
-4. Flashing the board w/ `esphome`
+4. Flashing the board with `esphome`
 5. Pairing the board with your home assistant
 6. Optional: Printing a custom case for the board
 
@@ -77,3 +77,65 @@ Once you've soldered the pins, you can connect the USB TTL Serial Converter like
 | RX                  | TX                                     |
 | TX                  | RX                                     |
 | R3 (GPIO 0)         | GND                                    |
+
+## 3. 📝 Setting up your YAML file
+
+The next step is to setup your YAML file.
+
+You download the [`sonoff-slampher-example.yml`](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/sonoff-slampher-example.ymls) from this repository and edit it to your needs.
+
+Here's what you need to change:
+
+### 🔧 General settings
+
+The name of the device and its friendly name for Home Assistant.
+
+```yml
+esphome:
+  name: <your-device-name>
+  friendly_name: <your-device-friendly-name>
+```
+
+### 🔐 Authentication settings with Home Assistant
+
+The encryption key and the reboot timeout that will be used to authenticate the device with Home Assistant.
+
+```yml
+api:
+  encryption:
+    key: "MZjX7hoxB43MeKI8MsLdKTjzduEUjRU9sH4TGtFCmKX="
+  reboot_timeout: 0s
+```
+
+### 📦 OTA settings
+
+The OTA (Over The Air) settings are used to update the device firmware from the ESPHome dashboard.
+
+```yml
+ota:
+  - platform: esphome
+    password: "de82ddbe2bebb6010a721fd2451684d6"
+```
+
+### 📡 WiFi settings
+
+The WiFi settings are used to connect the device to your home network.
+
+```yml
+wifi:
+  ssid: "<your-wifi-ssid>"
+  password: "<your-wifi-password>"
+  min_auth_mode: WPA2 # Required for next ESPHome updates. Please check the ESPHome documentation for more details.
+```
+
+### 📡 Access Point settings
+
+The AP settings are used to create a local access point for the device if the WiFi connection is not available.
+
+```yml
+ap:
+  ssid: "<your-ap-ssid>"
+  password: "<your-ap-password>"
+```
+
+For the rest of the file, you can keep the default settings provided in the example file.
