@@ -42,3 +42,28 @@ The first step is to open the Sonoff Slampher.
 
 ![Step 1 - 2](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_1/2.JPG?raw=true)
 
+## 2. 🔌 Locating required pins to solder on
+
+The next step is to locate the required pins to solder on.
+
+You'll need to find 5 pins on the board to solder on.
+
+| Pin | Description |
+|---|---|
+|GND| Ground |
+|VCC| Power |
+|RX| Data (receiver) |
+|TX| Data (transmitter) |
+|GPIO 0| Reset on R3 unpopulated pad |
+
+Here's a picture where you can find them:
+
+![Step 2 - 1](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_2/1.JPG?raw=true)
+
+I suggest you soldering Dupont connectors to the board in order to have a more secure connection and easier to (re)use.
+
+![Step 2 - 2](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_2/2.JPG?raw=true)
+
+Then solder a jumper wire to the `R3` that can be connected to the USB TTL Serial Converter's `GND` pin in order to be able to start the board in flashing mode.
+
+![Step 2 - 3](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_2/3.JPG?raw=true)
