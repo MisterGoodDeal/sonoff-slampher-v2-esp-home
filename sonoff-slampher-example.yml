@@ -1,0 +1,64 @@
+esphome:
+  name: sonoff-slampher-example
+  friendly_name: sonoff-slampher-example
+
+esp8266:
+  board: esp8285
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_1
+    on_press:
+      then:
+        - light.toggle: light_1
+
+output:
+  - platform: gpio
+    pin: GPIO12
+    id: relay_1
+
+  - platform: gpio
+    pin:
+      number: GPIO13
+      inverted: yes
+    id: led_1
+
+light:
+  - platform: binary
+    name: Light
+    id: light_1
+    output: relay_1
+    on_turn_on:
+      - output.turn_on: led_1
+    on_turn_off:
+      - output.turn_off: led_1
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "MyHomeAssistantEncryptionKey"
+  reboot_timeout: 0s
+
+ota:
+  - platform: esphome
+    password: "de82ddbe2bebb6010a721fd2451684d6"
+
+wifi:
+  ssid: "YourWiFiSSID"
+  password: "YourWiFiPassword"
+  min_auth_mode: WPA2
+
+  ap:
+    ssid: "Sonoff-Slampher-Example"
+    password: "MyStrongAPPassword!"
+
+captive_portal:
