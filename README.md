@@ -13,14 +13,14 @@ So in this tutorial I'll show the following steps to reproduce the flashing of *
 5. Pairing the board with your home assistant
 6. Optional: Printing a custom case for the board
 
-## ⚠️ Warning
+### ⚠️ Warning
 
 You're dealing with **live electricity**, either **110V** or **220V** depending on your country.
 The device has **capacitors** on the board, so be careful not to short them and leave the board disconnected from the power source for at least **10 minutes** before working on it.
 
 If you repurpose the board as a smart switch, just keep in mind that the board has a maximum load of 450w @ 2A for 220v or 22Ow @ 2A for 110v.
 
-## 📋 Prerequisites
+### 📋 Prerequisites
 
 * ✅ Sonoff Slampher v2.x
 * ✅ Soldering iron is **strongly** recommended to secure the connections
@@ -28,6 +28,8 @@ If you repurpose the board as a smart switch, just keep in mind that the board h
 * ✅ Your favorite text editor
 * ✅ ESPHome installed on your machine
 * ✅ USB TTL Serial Converter (like [this one](https://www.amazon.fr/Rtinle-Adaptateur-Conversion-dinterface-Compatible/dp/B0B7RHPMT7?dib=eyJ2IjoiMSJ9.Fo8wOrhOfXGUMwzoksDvNk_kcNMyuEYydcwaN0N4ljZ801PvuEZuiievsFxyIcHXi6viNynU_jgu7JDM1mBYVYArS3zuKwpc-TMpNlqOQY14PEw7XVYd5YbMzKLkxINh2O1zsnHToLZmkl-8wAn8kThoR1mbVu-2t5QFGnTMhm8XHxUEMHgEYprJGtCVb4xpCbRRSqN_f4JW1FLxQW5khxnY7wOqaPWQQcflgYgQr9zkZZhMV9VaqtkIVQs4q2PHb8Xs0BOWUWFEsUVAfDuJRpocSUbhjmyo00FCckNlREI.XUqJVJtKCyMYcVX0V_vTmA9p61lHyfWpFF7_pNi-UAA\&dib_tag=se\&keywords=usb+ttl\&qid=1771459019\&sr=8-6))
+
+***
 
 ## 1. 🪛 Opening the Sonoff Slampher
 
