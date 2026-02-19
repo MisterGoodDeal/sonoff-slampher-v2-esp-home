@@ -1,6 +1,6 @@
 # 💡 Sonoff Slampher v2 flashing with ESPHome
 
-Recently my Sonoff Slampher stoped working and It was impossible to pair it again through eWelink app. The product seems to be deprecated. So I wanted to not only use a fully local smart device but repurpose It as a smart switch instead of a smart light bulb socket.
+Recently my Sonoff Slampher stoped working and It was impossible to pair it again through eWelink app. The product seems to be deprecated. So I wanted to not only use a fully local smart device but repurpose It as a smart switch instead of a smart light bulb socket since I've relaced all my light bulbs with Zigbee ones.
 
 ## 📖 Summary
 So in this tutorial I'll show the following steps to reproduce the flashing of **Sonoff Slampher v2** and an optional step requiering a 3D printer in order to print a custom case for the board 
@@ -16,6 +16,8 @@ So in this tutorial I'll show the following steps to reproduce the flashing of *
 
 You're dealing with **live electricity**, either **110V** or **220V** depending on your country.
 The device has **capacitors** on the board, so be careful not to short them and leave the board disconnected from the power source for at least **10 minutes** before working on it.
+
+If you repurpose the board as a smart switch, just keep in mind that the board has a maximum load of 450w @ 2A for 220v or 22Ow @ 2A for 110v.
 
 ## 📋 Prerequisites
 
@@ -36,6 +38,7 @@ The first step is to open the Sonoff Slampher.
 
 ![Step 1 - 1](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_1/1.JPG?raw=true)
 
-3. Lift the case up and make sure not to lose the screws and don't force the case off, it should come off easily. Wires are pretty strong, but don't pull them too hard.
+3. Lift the case up and make sure not to lose the screws and don't force the case off, it should come off easily. Wires are pretty strong, but don't pull them too hard. If you plan to repurpose the board as a smart switch, you can cut the wires to the desired length or desolder them from the board/sockets.
 
 ![Step 1 - 2](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_1/2.JPG?raw=true)
+
