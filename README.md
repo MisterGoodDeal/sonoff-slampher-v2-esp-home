@@ -141,3 +141,88 @@ ap:
 ```
 
 For the rest of the file, you can keep the default settings provided in the example file.
+
+## 4. 💻 Flashing the board with `esphome`
+
+Here you have two options, you can either use the ESPHome CLI or the ESPHome dashboard inside your Home Assistant instance.
+
+Since I'm have issues with the ESPHome dashboard inside my Home Assistant instance, I'll use the ESPHome CLI to flash the board. But I'll show you how to do it with the dashboard as well.
+
+First of all make sure your board is in flashing mode by connecting the USB TTL Serial Converter to the board and the GND pin to the R3 wire that you soldered on as well as the other pins as explained at the end of the [2. 🔌 Locating required pins to solder on](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/tree/main?tab=readme-ov-file#2--locating-required-pins-to-solder-on) section.
+
+![Step 4 - 1](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/1.JPG?raw=true)
+
+## ⚠️ Warning
+
+Make sure your USB TTL Serial Converter is in the correct voltage for your board. In most of the adapters, you'll find a switch or a jumper Dupont connector to switch the voltage between 3.3V and 5V. Make sure to use **3.3V** for the board otherwise **YOU WILL FRY YOUR BOARD**.
+
+![Step 4 - 2](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/2.JPG?raw=true)
+
+### 📦 Using the ESPHome CLI
+
+1. The first step is to install the ESPHome CLI.
+
+```bash
+# Using python
+pip install esphome
+```
+
+```bash
+# Using brew on macOS
+brew install esphome
+```
+
+```bash
+# Using apt on Ubuntu
+sudo apt install esphome
+```
+
+*For other operating systems, please check the [ESPHome documentation](https://esphome.io/guides/installing_esphome/) for more details.*
+
+2. Connect the USB TTL Serial Converter to your computer and the board to the USB TTL Serial Converter.
+
+3. Type the following command to flash the board:
+
+```bash
+esphome run <your-yaml-file>.yml
+```
+
+![Step 4 - 3](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/3.gif?raw=true)
+
+4. Wait for `esphome` to download all dependencies and select the correct board and port (generally pick option 1).
+
+![Step 4 - 4](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/4.png?raw=true)
+
+5. Wait for `esphome` to flash the board.
+
+![Step 4 - 5](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/5.gif?raw=true)
+
+**If everything went well, you should see the following output: `INFO Successfully uploaded program.`**
+
+6. Once the board is flashed, you can unplug the `R3` wire from the GND pin and disconnect/reconnect the USB TTL Serial Converter in order to setup it in the Home Assistant configuration.
+
+### 🏠 Flashing the board with the Home Assistant ESPHome integration
+
+1. Open your Home Assistant instance and go to the `ESPHome Builder` tab.
+
+2. Click on `+ New device` on the bottom-right corner and select `Import from file` and select your YAML file created.
+
+3. Click on `INSTALL` and wait for the device to be installed.
+
+4. Select the board from the list of devices.
+
+## 🔗 Pairing the board with your Home Assistant
+
+If everything went well, you should be able to add the device to your Home Assistant instance. You'll need to copy the API key from the device settings and paste it in the Home Assistant configuration.
+
+1. Open your Home Assistant instance and go to the `Devices & Services` section.
+
+2. Your new device should automagically appear in the `Devices & Services` section. Click on `Add`
+
+![Step 5 - 1](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_5/1.png?raw=true)
+
+3. You'll be prompted to enter the API key. Enter the API key you copied from the device settings and click on `Submit`.
+
+4. Now you're good to go! You should be able to control the device from your Home Assistant instance.
+
+![Step 5 - 2](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_5/2.gif?raw=true)
