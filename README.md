@@ -245,3 +245,11 @@ Here's some parameters used to print the case:
 | Print speed        | 150mm/s       |
 | Layer height       | 0.28mm        |
 | Support            | Yes           |
+
+***
+
+## 🎉 Congratulations!
+
+You've successfully flashed your Sonoff Slampher v2 and paired it with your Home Assistant instance.
+
+If you need any help, feel free to open an issue on this repository or contact me via email at <mcamus.dev@gmail.com>.
