@@ -84,7 +84,7 @@ Once you've soldered the pins, you can connect the USB TTL Serial Converter like
 
 The next step is to setup your YAML file.
 
-You download the [`sonoff-slampher-example.yml`](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/sonoff-slampher-example.ymls) from this repository and edit it to your needs.
+You can download the [`sonoff-slampher-example.yml`](https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/sonoff-slampher-example.ymls) from this repository and edit it to your needs.
 
 Here's what you need to change:
 
