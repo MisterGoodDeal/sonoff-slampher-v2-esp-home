@@ -253,6 +253,142 @@
       color: var(--text-secondary);
     }
 
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(255, 167, 38, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 0 10px rgba(255, 167, 38, 0);
+      }
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        border-left-color: var(--warning-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      50% {
+        border-left-color: #ffb74d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 167, 38, 0.3);
+      }
+    }
+
+    @keyframes successGlow {
+
+      0%,
+      100% {
+        border-left-color: var(--success-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      50% {
+        border-left-color: #81c784;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 20px rgba(102, 187, 106, 0.3);
+      }
+    }
+
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in {
+      opacity: 0;
+      transition: opacity 1s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+    }
+
+    .warning {
+      animation: glow 4s ease-in-out infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .warning:hover {
+      transform: translateX(5px);
+    }
+
+    .success {
+      animation: successGlow 4s ease-in-out infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .success:hover {
+      transform: translateX(5px);
+    }
+
+    img {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+    }
+
+    table {
+      transition: transform 0.3s ease;
+    }
+
+    table:hover {
+      transform: translateY(-2px);
+    }
+
+    pre {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    pre:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+    }
+
+    h2,
+    h3 {
+      transition: color 0.3s ease;
+    }
+
+    h2:hover,
+    h3:hover {
+      color: var(--secondary-color);
+    }
+
     @media (max-width: 768px) {
       .container {
         padding: 1rem;
@@ -626,6 +762,52 @@ sudo apt install esphome</code></pre>
   <footer>
     <p>&copy; 2024 Sonoff Slampher v2 ESPHome Guide</p>
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -80px 0px'
+      };
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, index * 50);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      const elementsToAnimate = document.querySelectorAll('h2, h3, p, ul, ol, table, pre, img, .warning, .success, .info-box, hr');
+      elementsToAnimate.forEach((el, index) => {
+        if (el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'TABLE' || el.tagName === 'PRE' || el.tagName === 'IMG' || el.tagName === 'HR') {
+          el.classList.add('fade-in-up');
+        } else if (el.classList.contains('warning') || el.classList.contains('success') || el.classList.contains('info-box')) {
+          el.classList.add('fade-in-up');
+        } else {
+          el.classList.add('fade-in');
+        }
+        observer.observe(el);
+      });
+
+      const header = document.querySelector('header');
+      if (header) {
+        header.style.opacity = '0';
+        header.style.animation = 'fadeIn 1.2s ease-out forwards';
+      }
+
+      const container = document.querySelector('.container');
+      if (container) {
+        const firstElements = container.querySelectorAll('h2:first-of-type, p:first-of-type');
+        firstElements.forEach(el => {
+          el.style.transitionDelay = '0.2s';
+        });
+      }
+    });
+  </script>
 </body>
 
 </html>
