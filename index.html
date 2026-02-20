@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+  <title>💡 Sonoff Slampher v2 flashing with ESPHome</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --success-color: #27ae60;
+      --warning-color: #f39c12;
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --code-bg: #f4f4f4;
+      --border-color: #e0e0e0;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    main {
+      padding: 2rem 0;
+    }
+
+    h2 {
+      color: var(--primary-color);
+      font-size: 2rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid var(--secondary-color);
+    }
+
+    h3 {
+      color: var(--secondary-color);
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    h4 {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      text-align: justify;
+    }
+
+    ul,
+    ol {
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
+
+    code {
+      background-color: var(--code-bg);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      color: var(--accent-color);
+    }
+
+    pre {
+      background-color: var(--code-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--secondary-color);
+      box-shadow: var(--shadow);
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: var(--text-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      margin: 1.5rem 0;
+      display: block;
+    }
+
+    .warning {
+      background-color: #fff3cd;
+      border-left: 4px solid var(--warning-color);
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+    }
+
+    .warning h3 {
+      color: var(--warning-color);
+      margin-top: 0;
+    }
+
+    .success {
+      background-color: #d4edda;
+      border-left: 4px solid var(--success-color);
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+    }
+
+    .info-box {
+      background-color: #e7f3ff;
+      border-left: 4px solid var(--secondary-color);
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid var(--border-color);
+      margin: 3rem 0;
+    }
+
+    .step-number {
+      display: inline-block;
+      background-color: var(--secondary-color);
+      color: white;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 2rem;
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+
+    strong {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+      border-top: 2px solid var(--border-color);
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      header {
+        padding: 2rem 1rem;
+      }
+
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th,
+      td {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>💡 Sonoff Slampher v2 flashing with ESPHome</h1>
+    <p>Recently my Sonoff Slampher stoped working and It was impossible to pair it again through eWelink app. The
+      product seems to be deprecated. So I wanted to not only use a fully local smart device but repurpose It as a smart
+      switch instead of a smart light bulb socket since I've relaced all my light bulbs with Zigbee ones.</p>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2>📖 Summary</h2>
+      <p>So in this tutorial I'll show the following steps to reproduce the flashing of <strong>Sonoff Slampher
+          v2</strong> and an optional step requiering a 3D printer in order to print a custom case for the board</p>
+
+      <ol>
+        <li>Opening the Sonoff Slampher</li>
+        <li>Locating required pins to solder on</li>
+        <li>Setting up your YAML file</li>
+        <li>Flashing the board with <code>esphome</code></li>
+        <li>Pairing the board with your home assistant</li>
+        <li>Optional: Printing a custom case for the board</li>
+      </ol>
+
+      <div class="warning">
+        <h3>⚠️ Warning</h3>
+        <p>You're dealing with <strong>live electricity</strong>, either <strong>110V</strong> or <strong>220V</strong>
+          depending on your country.</p>
+        <p>The device has <strong>capacitors</strong> on the board, so be careful not to short them and leave the board
+          disconnected from the power source for at least <strong>10 minutes</strong> before working on it.</p>
+        <p>If you repurpose the board as a smart switch, just keep in mind that the board has a maximum load of 450w @
+          2A for 220v or 220w @ 2A for 110v.</p>
+      </div>
+
+      <h3>📋 Prerequisites</h3>
+      <ul>
+        <li>✅ Sonoff Slampher v2.x</li>
+        <li>✅ Soldering iron is <strong>strongly</strong> recommended to secure the connections</li>
+        <li>✅ Philips screwdriver</li>
+        <li>✅ Your favorite text editor</li>
+        <li>✅ ESPHome installed on your machine</li>
+        <li>✅ USB TTL Serial Converter (like <a
+            href="https://www.amazon.fr/Rtinle-Adaptateur-Conversion-dinterface-Compatible/dp/B0B7RHPMT7?dib=eyJ2IjoiMSJ9.Fo8wOrhOfXGUMwzoksDvNk_kcNMyuEYydcwaN0N4ljZ801PvuEZuiievsFxyIcHXi6viNynU_jgu7JDM1mBYVYArS3zuKwpc-TMpNlqOQY14PEw7XVYd5YbMzKLkxINh2O1zsnHToLZmkl-8wAn8kThoR1mbVu-2t5QFGnTMhm8XHxUEMHgEYprJGtCVb4xpCbRRSqN_f4JW1FLxQW5khxnY7wOqaPWQQcflgYgQr9zkZZhMV9VaqtkIVQs4q2PHb8Xs0BOWUWFEsUVAfDuJRpocSUbhjmyo00FCckNlREI.XUqJVJtKCyMYcVX0V_vTmA9p61lHyfWpFF7_pNi-UAA&dib_tag=se&keywords=usb+ttl&qid=1771459019&sr=8-6"
+            target="_blank">this one</a>)</li>
+      </ul>
+
+      <hr>
+
+      <h2>1. 🪛 Opening the Sonoff Slampher</h2>
+      <p>The first step is to open the Sonoff Slampher.</p>
+      <ol>
+        <li>Unplug the Sonoff Slampher from the power source and wait for at least 10 minutes to discharge the
+          capacitors</li>
+        <li>Locate the two screws on the top of the case and remove them with the Philips screwdriver</li>
+      </ol>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_1/1.JPG?raw=true"
+        alt="Step 1 - 1">
+      <p>Lift the case up and make sure not to lose the screws and don't force the case off, it should come off easily.
+        Wires are pretty strong, but don't pull them too hard. If you plan to repurpose the board as a smart switch, you
+        can cut the wires to the desired length or desolder them from the board/sockets.</p>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_1/2.JPG?raw=true"
+        alt="Step 1 - 2">
+
+      <h2>2. 🔌 Locating required pins to solder on</h2>
+      <p>The next step is to locate the required pins to solder on.</p>
+      <p>You'll need to find 5 pins on the board to solder on.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Pin</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>GND</code></td>
+            <td>Ground</td>
+          </tr>
+          <tr>
+            <td><code>3V3</code></td>
+            <td>Power</td>
+          </tr>
+          <tr>
+            <td><code>RX</code></td>
+            <td>Data (receiver)</td>
+          </tr>
+          <tr>
+            <td><code>TX</code></td>
+            <td>Data (transmitter)</td>
+          </tr>
+          <tr>
+            <td><code>GPIO 0</code></td>
+            <td>Reset on R3 unpopulated pad</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Here's a picture where you can find them:</p>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_2/1.JPG?raw=true"
+        alt="Step 2 - 1">
+      <p>I suggest you soldering Dupont connectors to the board in order to have a more secure connection and easier to
+        (re)use.</p>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_2/2.JPG?raw=true"
+        alt="Step 2 - 2">
+      <p>Then solder a jumper wire to the <code>R3</code> that can be connected to the USB TTL Serial Converter's
+        <code>GND</code> pin in order to be able to start the board in flashing mode.
+      </p>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_2/3.JPG?raw=true"
+        alt="Step 2 - 3">
+      <p>Once you've soldered the pins, you can connect the USB TTL Serial Converter like so:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Pins from the board</th>
+            <th>Pins from the USB TTL Serial Converter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>GND</code></td>
+            <td><code>GND</code></td>
+          </tr>
+          <tr>
+            <td><code>3V3</code></td>
+            <td><code>VCC</code></td>
+          </tr>
+          <tr>
+            <td><code>RX</code></td>
+            <td><code>TX</code></td>
+          </tr>
+          <tr>
+            <td><code>TX</code></td>
+            <td><code>RX</code></td>
+          </tr>
+          <tr>
+            <td><code>R3 (GPIO 0)</code></td>
+            <td><code>GND</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>3. 📝 Setting up your YAML file</h2>
+      <p>The next step is to setup your YAML file.</p>
+      <p>You can download the <a
+          href="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/sonoff-slampher-example.ymls"
+          target="_blank"><code>sonoff-slampher-example.yml</code></a> from this repository and edit it to your needs.
+      </p>
+      <p>Here's what you need to change:</p>
+
+      <h3>🔧 General settings</h3>
+      <p>The name of the device and its friendly name for Home Assistant.</p>
+      <pre><code>esphome:
+  name: &lt;your-device-name&gt;
+  friendly_name: &lt;your-device-friendly-name&gt;</code></pre>
+
+      <h3>🔐 Authentication settings with Home Assistant</h3>
+      <p>The encryption key and the reboot timeout that will be used to authenticate the device with Home Assistant.</p>
+      <pre><code>api:
+  encryption:
+    key: "MZjX7hoxB43MeKI8MsLdKTjzduEUjRU9sH4TGtFCmKX="
+  reboot_timeout: 0s</code></pre>
+
+      <h3>📦 OTA settings</h3>
+      <p>The OTA (Over The Air) settings are used to update the device firmware from the ESPHome dashboard.</p>
+      <pre><code>ota:
+  - platform: esphome
+    password: "de82ddbe2bebb6010a721fd2451684d6"</code></pre>
+
+      <h3>🛜 WiFi settings</h3>
+      <p>The WiFi settings are used to connect the device to your home network.</p>
+      <pre><code>wifi:
+  ssid: "&lt;your-wifi-ssid&gt;"
+  password: "&lt;your-wifi-password&gt;"
+  min_auth_mode: WPA2 # Required for next ESPHome updates. Please check the ESPHome documentation for more details.</code></pre>
+
+      <h3>📡 Access Point settings</h3>
+      <p>The AP settings are used to create a local access point for the device if the WiFi connection is not available.
+      </p>
+      <pre><code>ap:
+  ssid: "&lt;your-ap-ssid&gt;"
+  password: "&lt;your-ap-password&gt;"</code></pre>
+
+      <p>For the rest of the file, you can keep the default settings provided in the example file.</p>
+
+      <h2>4. 💻 Flashing the board with <code>esphome</code></h2>
+      <p>Here you have two options, you can either use the ESPHome CLI or the ESPHome dashboard inside your Home
+        Assistant instance.</p>
+      <p>Since I'm have issues with the ESPHome dashboard inside my Home Assistant instance, I'll use the ESPHome CLI to
+        flash the board. But I'll show you how to do it with the dashboard as well.</p>
+      <p>First of all make sure your board is in flashing mode by connecting the USB TTL Serial Converter to the board
+        and the GND pin to the R3 wire that you soldered on as well as the other pins as explained at the end of the <a
+          href="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/tree/main?tab=readme-ov-file#2--locating-required-pins-to-solder-on"
+          target="_blank">2. 🔌 Locating required pins to solder on</a> section.</p>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/1.JPG?raw=true"
+        alt="Step 4 - 1">
+
+      <div class="warning">
+        <h3>⚠️ Warning</h3>
+        <p>Make sure your USB TTL Serial Converter is in the correct voltage for your board. In most of the adapters,
+          you'll find a switch or a jumper Dupont connector to switch the voltage between 3.3V and 5V. Make sure to use
+          <strong>3.3V</strong> for the board otherwise <strong>YOU WILL FRY YOUR BOARD</strong>.
+        </p>
+      </div>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/2.JPG?raw=true"
+        alt="Step 4 - 2">
+
+      <h3>📦 Using the ESPHome CLI</h3>
+      <ol>
+        <li>The first step is to install the ESPHome CLI.
+          <pre><code># Using python
+pip install esphome</code></pre>
+          <pre><code># Using brew on macOS
+brew install esphome</code></pre>
+          <pre><code># Using apt on Ubuntu
+sudo apt install esphome</code></pre>
+          <p><em>For other operating systems, please check the <a href="https://esphome.io/guides/installing_esphome/"
+                target="_blank">ESPHome documentation</a> for more details.</em></p>
+        </li>
+        <li>Connect the USB TTL Serial Converter to your computer and the board to the USB TTL Serial Converter.</li>
+        <li>Type the following command to flash the board:
+          <pre><code>esphome run &lt;your-yaml-file&gt;.yml</code></pre>
+        </li>
+      </ol>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/3.gif?raw=true"
+        alt="Step 4 - 3">
+      <ol start="4">
+        <li>Wait for <code>esphome</code> to download all dependencies and select the correct board and port (generally
+          pick option 1).</li>
+      </ol>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/4.png?raw=true"
+        alt="Step 4 - 4">
+      <ol start="5">
+        <li>Wait for <code>esphome</code> to flash the board.</li>
+      </ol>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_4/5.gif?raw=true"
+        alt="Step 4 - 5">
+      <p><strong>If everything went well, you should see the following output:
+          <code>INFO Successfully uploaded program.</code></strong></p>
+      <ol start="6">
+        <li>Once the board is flashed, you can unplug the <code>R3</code> wire from the GND pin and disconnect/reconnect
+          the USB TTL Serial Converter in order to setup it in the Home Assistant configuration.</li>
+      </ol>
+
+      <h3>🏠 Flashing the board with the Home Assistant ESPHome integration</h3>
+      <ol>
+        <li>Open your Home Assistant instance and go to the <code>ESPHome Builder</code> tab.</li>
+        <li>Click on <code>+ New device</code> on the bottom-right corner and select <code>Import from file</code> and
+          select your YAML file created.</li>
+        <li>Click on <code>INSTALL</code> and wait for the device to be installed.</li>
+        <li>Select the board from the list of devices.</li>
+      </ol>
+
+      <h2>🔗 Pairing the board with your Home Assistant</h2>
+      <p>If everything went well, you should be able to add the device to your Home Assistant instance. You'll need to
+        copy the API key from the device settings and paste it in the Home Assistant configuration.</p>
+      <ol>
+        <li>Open your Home Assistant instance and go to the <code>Devices & Services</code> section.</li>
+        <li>Your new device should automagically appear in the <code>Devices & Services</code> section. Click on
+          <code>Add</code>
+        </li>
+      </ol>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_5/1.png?raw=true"
+        alt="Step 5 - 1">
+      <ol start="3">
+        <li>You'll be prompted to enter the API key. Enter the API key you copied from the device settings and click on
+          <code>Submit</code>.
+        </li>
+        <li>Now you're good to go! You should be able to control the device from your Home Assistant instance.</li>
+      </ol>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_5/2.gif?raw=true"
+        alt="Step 5 - 2">
+
+      <h2>6. 🖨️ Optional: Printing a custom case for the board</h2>
+      <p>If you want to print a custom case for the board, you can use the <a
+          href="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/sonoff-slampher-case.stl"
+          target="_blank"><code>sonoff-slampher-case.stl</code></a> and <a
+          href="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/sonoff-slampher-cover.stl"
+          target="_blank"><code>sonoff-slampher-cover.stl</code></a> files from this repository. You can also download
+        the <a
+          href="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/raw/refs/heads/main/Sonoff%20Slampher%20v2.f3d"
+          target="_blank">Fusion 360 file</a> from this repository and open it with Fusion 360 to edit the design.</p>
+      <p>You'll be able to reuse the original screws to close the case.</p>
+      <p>Here's some parameters used to print the case:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Filament type</td>
+            <td>PLA</td>
+          </tr>
+          <tr>
+            <td>Filament color</td>
+            <td>White</td>
+          </tr>
+          <tr>
+            <td>Filament brand</td>
+            <td>Amazon Basics</td>
+          </tr>
+          <tr>
+            <td>Bed temperature</td>
+            <td>50°C</td>
+          </tr>
+          <tr>
+            <td>Hotend temperature</td>
+            <td>200°C</td>
+          </tr>
+          <tr>
+            <td>Print speed</td>
+            <td>150mm/s</td>
+          </tr>
+          <tr>
+            <td>Layer height</td>
+            <td>0.28mm</td>
+          </tr>
+          <tr>
+            <td>Support</td>
+            <td>Yes</td>
+          </tr>
+        </tbody>
+      </table>
+      <img src="https://github.com/MisterGoodDeal/sonoff-slampher-v2-esp-home/blob/main/assets/step_6/1.JPG?raw=true"
+        alt="Step 6 - 1">
+
+      <hr>
+
+      <div class="success">
+        <h2>🎉 Congratulations!</h2>
+        <p>You've successfully flashed your Sonoff Slampher v2 and paired it with your Home Assistant instance.</p>
+        <p>If you need any help, feel free to open an issue on this repository or contact me via email at <a
+            href="mailto:mcamus.dev@gmail.com">mcamus.dev@gmail.com</a>.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Sonoff Slampher v2 ESPHome Guide</p>
+  </footer>
+</body>
+
+</html>
