@@ -1,6 +1,6 @@
 # 💡 Sonoff Slampher v2 flashing with ESPHome
 
-Recently my Sonoff Slampher stoped working and It was impossible to pair it again through eWelink app. The product seems to be deprecated. So I wanted to not only use a fully local smart device but repurpose It as a smart switch instead of a smart light bulb socket since I've relaced all my light bulbs with Zigbee ones.
+Recently my Sonoff Slampher stoped working and It was impossible to pair it again through eWelink app. The product seems to be deprecated. So I wanted to not only use a fully local smart device but repurpose It as a smart switch instead of a smart light bulb socket since I've replaced all my light bulbs with Zigbee ones.
 
 ## 📖 Summary
 
